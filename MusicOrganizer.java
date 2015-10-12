@@ -7,8 +7,8 @@ import java.lang.Object;
  * A class to hold details of audio tracks.
  * Individual tracks may be played.
  * 
- * @author David J. Barnes and Michael Kölling
- * @version 2011.07.31
+ * @author David J. Barnes and Michael Kölling   ... and Andrew Worthington
+ * @version 2015.10.12
  */
 public class MusicOrganizer
 {

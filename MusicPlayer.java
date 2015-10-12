@@ -18,6 +18,7 @@ public class MusicPlayer
 {
     // The current player. It might be null.
     private AdvancedPlayer player;
+    private Boolean isPlaying;
     
     /**
      * Constructor for objects of class MusicFilePlayer
@@ -25,6 +26,7 @@ public class MusicPlayer
     public MusicPlayer()
     {
         player = null;
+        isPlaying = false;
     }
     
     /**
@@ -46,6 +48,10 @@ public class MusicPlayer
         }
     }
     
+    public Boolean isPlaying(){
+        return isPlaying;
+    }
+    
     /**
      * Start playing the given audio file.
      * The method returns once the playing has been started.
@@ -61,6 +67,7 @@ public class MusicPlayer
                 {
                     try {
                         player.play(5000);
+                        
                     }
                     catch(JavaLayerException e) {
                         reportProblem(filename);
@@ -71,6 +78,7 @@ public class MusicPlayer
                 }
             };
             playerThread.start();
+            isPlaying = true;
         }
         catch (Exception ex) {
             reportProblem(filename);
@@ -135,8 +143,10 @@ public class MusicPlayer
             if(player != null) {
                 player.stop();
                 player = null;
+                isPlaying = false;
             }
         }
+
     }
     
     /**

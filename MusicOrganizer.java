@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Random;
+import java.lang.Thread;
+import java.lang.Object;
 
 /**
  * A class to hold details of audio tracks.
@@ -45,9 +47,53 @@ public class MusicOrganizer
      * Plays a random track
      */
     public void playRandom(){
+       player.startPlaying(getRandomTrack().getFilename() );
+    }
+    
+    /**
+     * returns a randomly selected track from the library
+     */
+    private Track getRandomTrack(){
         int rndTrack = randObj.nextInt(tracks.size());
-        player.startPlaying(tracks.get(rndTrack).getFilename() );
+        return tracks.get(rndTrack);
+    }
+    
+    /**
+     * Plays each track available randomly, once
+     */
+    public void playRandomList()
+    {
+        ArrayList<Track> randomList = new ArrayList<Track>();
+        Track randTrack;
+        Boolean hasIt = false;
         
+        System.out.println("Assembling random playlist ...");
+        for(Track track : tracks){
+            if(randomList.size() == 0){
+                randomList.add(getRandomTrack());
+                System.out.println("Added " + randomList.get(0).getFilename() + " to the list");
+            }else{
+                do{
+                    randTrack = getRandomTrack();
+                    hasIt = randomList.contains(randTrack) ;
+                }while(hasIt);
+                randomList.add(randTrack);
+                System.out.println("Added " + randTrack.getFilename() + " to the list");
+            }
+            
+        }
+        // list assembled, now play
+        // ideally, I would handle this with event listeners and a few flags in the player class, however, I don't know
+        // how to do that yet in java, only actionscript, thought I am sure it is similar, this is my workaround.
+        System.out.println("Playing the list... ");
+        for(Track track : randomList){
+            player.startPlaying(track.getFilename());
+            System.out.println("Playing: " + track.getFilename());
+            do {
+                //nothing   <<< problem with this is it ties up the musicorganizer class, 
+                //              making it unable to use other methods
+            }while(player.isPlaying());
+        }
     }
     
     /**
